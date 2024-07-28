@@ -77,6 +77,7 @@ public interface MethodMatcher {
 	 * again before each method invocation.
 	 * @return whether a runtime match via {@link #matches(Method, Class, Object[])}
 	 * is required if static matching passed
+	 * 方法是不是动态代理的时候动态创建的
 	 */
 	boolean isRuntime();
 

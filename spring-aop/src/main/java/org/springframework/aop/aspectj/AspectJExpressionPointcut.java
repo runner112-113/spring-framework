@@ -85,6 +85,7 @@ public class AspectJExpressionPointcut extends AbstractExpressionPointcut
 
 	private static final String AJC_MAGIC = "ajc$";
 
+	// Aspectj指令支持情况
 	private static final Set<PointcutPrimitive> SUPPORTED_PRIMITIVES = Set.of(
 			PointcutPrimitive.EXECUTION,
 			PointcutPrimitive.ARGS,

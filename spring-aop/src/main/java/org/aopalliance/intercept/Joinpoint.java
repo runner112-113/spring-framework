@@ -64,6 +64,8 @@ public interface Joinpoint {
 	 * Return the static part of this joinpoint.
 	 * <p>The static part is an accessible object on which a chain of
 	 * interceptors is installed.
+	 * AOP的静态部分，比如：方法，属性，构造器等
+	 * 在Spring中就是方法
 	 */
 	@Nonnull
 	AccessibleObject getStaticPart();
