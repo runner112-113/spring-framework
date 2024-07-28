@@ -53,6 +53,8 @@ import org.aopalliance.aop.Advice;
  *
  * @author Rod Johnson
  * @see Joinpoint
+ *
+ * 相当于AroundAdvice
  */
 public interface Interceptor extends Advice {
 
