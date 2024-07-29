@@ -326,10 +326,12 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 		final boolean hashCodeDefined;
 
 		ProxiedInterfacesCache(AdvisedSupport config) {
+			// 获取配置里面目标类所实现的所有接口
 			this.proxiedInterfaces = AopProxyUtils.completeProxiedInterfaces(config, true);
 
 			// Find any {@link #equals} or {@link #hashCode} method that may be defined
 			// on the supplied set of interfaces.
+			// jdk中的接口会默认继承hashCode和equals方法
 			boolean equalsDefined = false;
 			boolean hashCodeDefined = false;
 			for (Class<?> proxiedInterface : this.proxiedInterfaces) {
