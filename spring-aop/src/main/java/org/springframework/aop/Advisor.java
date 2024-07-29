@@ -32,6 +32,9 @@ import org.aopalliance.aop.Advice;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
+ *
+ *
+ * Advice的容器(Holder)
  */
 public interface Advisor {
 
@@ -64,6 +67,8 @@ public interface Advisor {
 	 * proxy creation to ensure that Advisors have the correct lifecycle model.
 	 * <p>As of 6.0.10, the default implementation returns {@code true}.
 	 * @return whether this advice is associated with a particular target instance
+	 *
+	 * 是否每个实例一个(是否共享)
 	 */
 	default boolean isPerInstance() {
 		return true;

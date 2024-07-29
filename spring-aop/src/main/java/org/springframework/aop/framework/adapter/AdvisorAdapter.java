@@ -57,6 +57,8 @@ public interface AdvisorAdapter {
 	 * @return an AOP Alliance interceptor for this Advisor. There's
 	 * no need to cache instances for efficiency, as the AOP framework
 	 * caches advice chains.
+	 *
+	 * 传入Advisor(Advice) 输出 MethodInterceptor
 	 */
 	MethodInterceptor getInterceptor(Advisor advisor);
 
