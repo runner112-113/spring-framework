@@ -107,6 +107,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	private List<Advisor> advisorKey = this.advisors;
 
 	/** Cache with Method as key and advisor chain List as value. */
+	// Method --> AdvisorChain的缓存
 	@Nullable
 	private transient Map<MethodCacheKey, List<Object>> methodCache;
 
