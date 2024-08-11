@@ -244,7 +244,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Nullable
 	private Set<ApplicationListener<?>> earlyApplicationListeners;
 
-	/** ApplicationEvents published before the multicaster setup. */
+	/** ApplicationEvents published before the multicaster setup.
+	 * 暂存在multicaster初始化之前发出的早期事件
+	 * <p>早期Spring3的时候有一个Bug：
+	 * 可能applicationEventMulticaster还没有初始化，就会伴随着一些事件的发出，比如{@link #registerBeanPostProcessors}中的
+	 * beanFactory.getBean(ppName, BeanPostProcessor.class),初始化一些bean的时候会发出事件
+	 * */
 	@Nullable
 	private Set<ApplicationEvent> earlyApplicationEvents;
 
@@ -447,6 +452,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// Multicast right now if possible - or lazily once the multicaster is initialized
+		// 如果
 		if (this.earlyApplicationEvents != null) {
 			this.earlyApplicationEvents.add(applicationEvent);
 		}
@@ -694,6 +700,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Allow for the collection of early ApplicationEvents,
 		// to be published once the multicaster is available...
+		// 实例化earlyApplicationEvents
 		this.earlyApplicationEvents = new LinkedHashSet<>();
 	}
 
@@ -921,6 +928,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// Publish early application events now that we finally have a multicaster...
+		// 此时multicaster以及applicationListeners已经准备完毕，立即触发早期存储的事件
+		// 将earlyApplicationEvents置为null，后续的事件可以直接触发
 		Set<ApplicationEvent> earlyEventsToProcess = this.earlyApplicationEvents;
 		this.earlyApplicationEvents = null;
 		if (!CollectionUtils.isEmpty(earlyEventsToProcess)) {

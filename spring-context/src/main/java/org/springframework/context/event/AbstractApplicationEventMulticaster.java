@@ -68,6 +68,7 @@ public abstract class AbstractApplicationEventMulticaster
 
 	private final DefaultListenerRetriever defaultRetriever = new DefaultListenerRetriever();
 
+	// 事件类型和对应监听器的映射关系 1:n
 	final Map<ListenerCacheKey, CachedListenerRetriever> retrieverCache = new ConcurrentHashMap<>(64);
 
 	@Nullable

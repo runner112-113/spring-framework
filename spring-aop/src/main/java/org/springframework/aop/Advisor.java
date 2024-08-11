@@ -34,7 +34,7 @@ import org.aopalliance.aop.Advice;
  * @author Juergen Hoeller
  *
  *
- * Advice的容器(Holder)
+ * <p>Advice的容器(Holder)
  */
 public interface Advisor {
 
@@ -68,7 +68,7 @@ public interface Advisor {
 	 * <p>As of 6.0.10, the default implementation returns {@code true}.
 	 * @return whether this advice is associated with a particular target instance
 	 *
-	 * 是否每个实例一个(是否共享)
+	 * <p>是否每个实例一个(是否共享)
 	 */
 	default boolean isPerInstance() {
 		return true;
