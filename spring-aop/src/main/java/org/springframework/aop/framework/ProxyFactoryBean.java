@@ -546,6 +546,7 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 			if (logger.isDebugEnabled()) {
 				logger.debug("Refreshing target with name '" + this.targetName + "'");
 			}
+			// 通过targetName从BeanFactory获取target对象
 			Object target = this.beanFactory.getBean(this.targetName);
 			return (target instanceof TargetSource targetSource ? targetSource : new SingletonTargetSource(target));
 		}
