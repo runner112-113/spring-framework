@@ -176,6 +176,7 @@ public final class AutowiredMethodArgumentsResolver extends AutowiredElementReso
 				descriptor = new ShortcutDependencyDescriptor(descriptor, shortcut);
 			}
 			try {
+				// 不仅是bean,也可能是依赖的资源
 				Object argument = autowireCapableBeanFactory.resolveDependency(
 						descriptor, beanName, autowiredBeanNames, typeConverter);
 				if (argument == null && !this.required) {

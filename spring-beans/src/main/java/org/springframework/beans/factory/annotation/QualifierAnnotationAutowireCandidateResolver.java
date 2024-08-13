@@ -347,7 +347,9 @@ public class QualifierAnnotationAutowireCandidateResolver extends GenericTypeAwa
 	@Nullable
 	public String getSuggestedName(DependencyDescriptor descriptor) {
 		for (Annotation annotation : descriptor.getAnnotations()) {
+			// 是否是@Qualifier
 			if (isQualifier(annotation.annotationType())) {
+				// 获取@Qualifier中的value值
 				Object value = AnnotationUtils.getValue(annotation);
 				if (value instanceof String str) {
 					return str;
@@ -364,6 +366,7 @@ public class QualifierAnnotationAutowireCandidateResolver extends GenericTypeAwa
 	@Override
 	@Nullable
 	public Object getSuggestedValue(DependencyDescriptor descriptor) {
+		// 获取@Value中的value值
 		Object value = findValue(descriptor.getAnnotations());
 		if (value == null) {
 			MethodParameter methodParam = descriptor.getMethodParameter();
@@ -383,6 +386,7 @@ public class QualifierAnnotationAutowireCandidateResolver extends GenericTypeAwa
 			AnnotationAttributes attr = AnnotatedElementUtils.getMergedAnnotationAttributes(
 					AnnotatedElementUtils.forAnnotations(annotationsToSearch), this.valueAnnotationType);
 			if (attr != null) {
+				// 提取注解中value属性值
 				return extractValue(attr);
 			}
 		}
