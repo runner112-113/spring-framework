@@ -329,6 +329,7 @@ class ConfigurationClassParser {
 			// 处理@ComponentScan
 			for (AnnotationAttributes componentScan : componentScans) {
 				// The config class is annotated with @ComponentScan -> perform the scan immediately
+				// 默认扫描所有的@Component
 				Set<BeanDefinitionHolder> scannedBeanDefinitions =
 						this.componentScanParser.parse(componentScan, sourceClass.getMetadata().getClassName());
 				// Check the set of scanned definitions for any further config classes and parse recursively if needed
@@ -337,6 +338,7 @@ class ConfigurationClassParser {
 					if (bdCand == null) {
 						bdCand = holder.getBeanDefinition();
 					}
+					// 是配置类就迭代处理
 					if (ConfigurationClassUtils.checkConfigurationClassCandidate(bdCand, this.metadataReaderFactory)) {
 						parse(bdCand.getBeanClassName(), holder.getBeanName());
 					}
@@ -360,7 +362,9 @@ class ConfigurationClassParser {
 		}
 
 		// Process individual @Bean methods
+		// 获取所有的@Bean方法元数据 (此处是通过ASM读取字节码确定的方法声明的顺序)
 		Set<MethodMetadata> beanMethods = retrieveBeanMethodMetadata(sourceClass);
+		// 构建BeanMethod
 		for (MethodMetadata methodMetadata : beanMethods) {
 			if (methodMetadata.isAnnotated("kotlin.jvm.JvmStatic") && !methodMetadata.isStatic()) {
 				continue;
@@ -439,6 +443,11 @@ class ConfigurationClassParser {
 
 	/**
 	 * Retrieve the metadata for all <code>@Bean</code> methods.
+	 *
+	 *
+	 * <p><b>Try reading the class file via ASM for deterministic declaration order...</b>
+	 * Unfortunately, the JVM's standard reflection returns methods in arbitrary
+	 * order, even between different runs of the same application on the same JVM.
 	 */
 	private Set<MethodMetadata> retrieveBeanMethodMetadata(SourceClass sourceClass) {
 		AnnotationMetadata original = sourceClass.getMetadata();
@@ -447,6 +456,8 @@ class ConfigurationClassParser {
 			// Try reading the class file via ASM for deterministic declaration order...
 			// Unfortunately, the JVM's standard reflection returns methods in arbitrary
 			// order, even between different runs of the same application on the same JVM.
+
+			// 通过ASM的方式来确定@Bean方法的声明顺序
 			try {
 				AnnotationMetadata asm =
 						this.metadataReaderFactory.getMetadataReader(original.getClassName()).getAnnotationMetadata();

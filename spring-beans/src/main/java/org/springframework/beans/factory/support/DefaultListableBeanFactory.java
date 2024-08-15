@@ -1547,6 +1547,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			if (descriptor.usesStandardBeanLookup()) {
 				String dependencyName = descriptor.getDependencyName();
 				if (dependencyName == null || !containsBean(dependencyName)) {
+					// 查找@Qualifier中指定的name
 					String suggestedName = getAutowireCandidateResolver().getSuggestedName(descriptor);
 					dependencyName = (suggestedName != null && containsBean(suggestedName) ? suggestedName : null);
 				}
