@@ -128,7 +128,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	@Nullable
 	private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
-	/** ClassLoader to temporarily resolve bean class names with, if necessary. */
+	/**
+	 * ClassLoader to temporarily resolve bean class names with, if necessary.
+	 * <p>AOP时会使用
+	 * */
 	@Nullable
 	private ClassLoader tempClassLoader;
 
