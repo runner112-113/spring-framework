@@ -120,6 +120,7 @@ public class InjectionPoint {
 	 * Obtain the annotations associated with the wrapped field or method/constructor parameter.
 	 */
 	public Annotation[] getAnnotations() {
+		// 属性的场景
 		if (this.field != null) {
 			Annotation[] fieldAnnotations = this.fieldAnnotations;
 			if (fieldAnnotations == null) {
@@ -129,6 +130,7 @@ public class InjectionPoint {
 			return fieldAnnotations;
 		}
 		else {
+			// 方法/构造器的场景
 			return obtainMethodParameter().getParameterAnnotations();
 		}
 	}
