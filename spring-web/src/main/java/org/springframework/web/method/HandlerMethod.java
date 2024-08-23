@@ -229,12 +229,15 @@ public class HandlerMethod {
 	}
 
 	private void evaluateResponseStatus() {
+		// 现在方法上找@ResponseStatus
 		ResponseStatus annotation = getMethodAnnotation(ResponseStatus.class);
 		if (annotation == null) {
+			// 再在类上面找@ResponseStatus
 			annotation = AnnotatedElementUtils.findMergedAnnotation(getBeanType(), ResponseStatus.class);
 		}
 		if (annotation != null) {
 			String reason = annotation.reason();
+			// 通过messageSource获取国际化文本
 			String resolvedReason = (StringUtils.hasText(reason) && this.messageSource != null ?
 					this.messageSource.getMessage(reason, null, reason, LocaleContextHolder.getLocale()) :
 					reason);

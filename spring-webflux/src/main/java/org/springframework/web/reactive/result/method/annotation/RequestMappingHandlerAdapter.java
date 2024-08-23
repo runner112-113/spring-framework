@@ -170,6 +170,7 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter, Application
 			this.reactiveAdapterRegistry = ReactiveAdapterRegistry.getSharedInstance();
 		}
 
+		// Controller类内可以做的一些扩展
 		this.methodResolver = new ControllerMethodResolver(this.argumentResolverConfigurer,
 				this.reactiveAdapterRegistry, this.applicationContext, this.messageReaders);
 

@@ -272,6 +272,7 @@ public class ContextLoader {
 					if (cwac.getParent() == null) {
 						// The context instance was injected without an explicit parent ->
 						// determine parent for root web application context, if any.
+						// 此处是Root容器 parent为null
 						ApplicationContext parent = loadParentContext(servletContext);
 						cwac.setParent(parent);
 					}
@@ -398,6 +399,7 @@ public class ContextLoader {
 			((ConfigurableWebEnvironment) env).initPropertySources(sc, null);
 		}
 
+		// 回调ApplicationContextInitializer的initialize
 		customizeContext(sc, wac);
 		wac.refresh();
 	}

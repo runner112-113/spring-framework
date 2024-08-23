@@ -296,6 +296,7 @@ public class ControllerAdviceBean implements Ordered {
 			beanFactory = ((ConfigurableApplicationContext) context).getBeanFactory();
 		}
 		List<ControllerAdviceBean> adviceBeans = new ArrayList<>();
+		// 遍历所有的bean,找标有@ControllerAdvice
 		for (String name : BeanFactoryUtils.beanNamesForTypeIncludingAncestors(beanFactory, Object.class)) {
 			if (!ScopedProxyUtils.isScopedTarget(name)) {
 				ControllerAdvice controllerAdvice = beanFactory.findAnnotationOnBean(name, ControllerAdvice.class);

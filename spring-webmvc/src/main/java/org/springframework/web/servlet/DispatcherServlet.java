@@ -620,6 +620,7 @@ public class DispatcherServlet extends FrameworkServlet {
 		}
 
 		for (HandlerMapping mapping : this.handlerMappings) {
+			// 请求路径匹配的模式
 			if (mapping.usesPathPatterns()) {
 				this.parseRequestPath = true;
 				break;
@@ -956,8 +957,10 @@ public class DispatcherServlet extends FrameworkServlet {
 		}
 
 		RequestPath previousRequestPath = null;
+		// 目前均为true
 		if (this.parseRequestPath) {
 			previousRequestPath = (RequestPath) request.getAttribute(ServletRequestPathUtils.PATH_ATTRIBUTE);
+			// 解析请求的path并存在{@link ServletRequestPathUtils.PATH_ATTRIBUTE}中
 			ServletRequestPathUtils.parseAndCache(request);
 		}
 
@@ -1034,6 +1037,7 @@ public class DispatcherServlet extends FrameworkServlet {
 		HandlerExecutionChain mappedHandler = null;
 		boolean multipartRequestParsed = false;
 
+		// 获取异步处理的WebAsyncManager
 		WebAsyncManager asyncManager = WebAsyncUtils.getAsyncManager(request);
 
 		try {
@@ -1041,6 +1045,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			Exception dispatchException = null;
 
 			try {
+				// 文件上传请求的特殊处理
 				processedRequest = checkMultipart(request);
 				multipartRequestParsed = (processedRequest != request);
 
@@ -1064,11 +1069,13 @@ public class DispatcherServlet extends FrameworkServlet {
 					}
 				}
 
+				// 执行拦截器的preHandle
 				if (!mappedHandler.applyPreHandle(processedRequest, response)) {
 					return;
 				}
 
 				// Actually invoke the handler.
+				// 执行handler的逻辑
 				mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
 
 				if (asyncManager.isConcurrentHandlingStarted()) {
@@ -1076,6 +1083,7 @@ public class DispatcherServlet extends FrameworkServlet {
 				}
 
 				applyDefaultViewName(processedRequest, mv);
+				// 执行拦截器的postHandle
 				mappedHandler.applyPostHandle(processedRequest, response, mv);
 			}
 			catch (Exception ex) {
@@ -1086,6 +1094,8 @@ public class DispatcherServlet extends FrameworkServlet {
 				// making them available for @ExceptionHandler methods and other scenarios.
 				dispatchException = new NestedServletException("Handler dispatch failed", err);
 			}
+			// 处理ModelAndView和Exception
+			// HandlerExceptionResolver在此生效
 			processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);
 		}
 		catch (Exception ex) {

@@ -219,18 +219,22 @@ class ControllerMethodResolver {
 	}
 
 	private void initControllerAdviceCaches(ApplicationContext applicationContext) {
+		// 寻找所有的@ControllerAdvice的对象
 		List<ControllerAdviceBean> beans = ControllerAdviceBean.findAnnotatedBeans(applicationContext);
 		for (ControllerAdviceBean bean : beans) {
 			Class<?> beanType = bean.getBeanType();
 			if (beanType != null) {
+				// 处理@ModelAttribute
 				Set<Method> attrMethods = MethodIntrospector.selectMethods(beanType, MODEL_ATTRIBUTE_METHODS);
 				if (!attrMethods.isEmpty()) {
 					this.modelAttributeAdviceCache.put(bean, attrMethods);
 				}
+				// 处理@InitBinder
 				Set<Method> binderMethods = MethodIntrospector.selectMethods(beanType, INIT_BINDER_METHODS);
 				if (!binderMethods.isEmpty()) {
 					this.initBinderAdviceCache.put(bean, binderMethods);
 				}
+				// 处理@ExceptionHandler
 				ExceptionHandlerMethodResolver resolver = new ExceptionHandlerMethodResolver(beanType);
 				if (resolver.hasExceptionMappings()) {
 					this.exceptionHandlerAdviceCache.put(bean, resolver);

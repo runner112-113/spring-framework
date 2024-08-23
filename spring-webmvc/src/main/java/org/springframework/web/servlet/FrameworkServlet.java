@@ -558,6 +558,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 * @see #setContextConfigLocation
 	 */
 	protected WebApplicationContext initWebApplicationContext() {
+		// 拿到保存在request域中的rootWebContext
 		WebApplicationContext rootContext =
 				WebApplicationContextUtils.getWebApplicationContext(getServletContext());
 		WebApplicationContext wac = null;
@@ -573,6 +574,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 					if (cwac.getParent() == null) {
 						// The context instance was injected without an explicit parent -> set
 						// the root application context (if any; may be null) as the parent
+						// 将rootContext设置为Servlet WebContext的父容器
 						cwac.setParent(rootContext);
 					}
 					// 刷新web容器
@@ -688,7 +690,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 		wac.setServletContext(getServletContext());
 		wac.setServletConfig(getServletConfig());
 		wac.setNamespace(getNamespace());
-		// 注册了一个监听器，当容器完全刷新结束的时候，会回调这个监听器，完成SpringMVC的八大组件的初始化
+		// 注册了一个监听器，当容器完全刷新结束的时候(ContextRefreshedEvent)，会回调这个监听器，完成SpringMVC的八大组件的初始化
 		// 添加ContextRefreshedEvent的监听器
 		wac.addApplicationListener(new SourceFilteringListener(wac, new ContextRefreshListener()));
 
@@ -701,6 +703,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 		}
 
 		postProcessWebApplicationContext(wac);
+		// 触发所有的ApplicationInitializer的initialize
 		applyInitializers(wac);
 		wac.refresh();
 	}
@@ -1023,6 +1026,7 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 				requestAttributes.requestCompleted();
 			}
 			logResult(request, response, failureCause, asyncManager);
+			// 发布ServletRequestHandledEvent事件
 			publishRequestHandledEvent(request, response, startTime, failureCause);
 		}
 	}

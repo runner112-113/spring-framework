@@ -53,9 +53,11 @@ public abstract class AbstractHandlerExceptionResolver implements HandlerExcepti
 
 	private int order = Ordered.LOWEST_PRECEDENCE;
 
+	// 可处理的Handler的对象
 	@Nullable
 	private Set<?> mappedHandlers;
 
+	// 可处理的Handler的Class对象
 	@Nullable
 	private Class<?>[] mappedHandlerClasses;
 
