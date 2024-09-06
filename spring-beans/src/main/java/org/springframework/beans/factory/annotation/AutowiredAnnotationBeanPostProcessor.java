@@ -517,6 +517,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 				}
 			});
 
+			// 通过ASM直接通过字节码来获取声明的方法顺序
 			elements.addAll(0, sortMethodElements(methodElements, targetClass));
 			elements.addAll(0, fieldElements);
 			targetClass = targetClass.getSuperclass();

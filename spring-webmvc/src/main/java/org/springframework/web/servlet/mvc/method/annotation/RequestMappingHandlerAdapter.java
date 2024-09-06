@@ -887,6 +887,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 			modelFactory.initModel(webRequest, mavContainer, invocableMethod);
 			mavContainer.setIgnoreDefaultModelOnRedirect(this.ignoreDefaultModelOnRedirect);
 
+			// 异步请求dispatch后会再次进入Servlet
 			if (asyncManager.hasConcurrentResult()) {
 				Object result = asyncManager.getConcurrentResult();
 				Object[] resultContext = asyncManager.getConcurrentResultContext();
@@ -897,6 +898,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 					String formatted = LogFormatUtils.formatValue(result, !traceOn);
 					return "Resume with async result [" + formatted + "]";
 				});
+				// 覆盖了invocableMethod 不会走HandlerMethod了
 				invocableMethod = invocableMethod.wrapConcurrentResult(result);
 			}
 
