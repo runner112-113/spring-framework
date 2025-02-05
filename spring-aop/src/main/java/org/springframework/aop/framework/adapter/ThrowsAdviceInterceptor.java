@@ -78,7 +78,9 @@ public class ThrowsAdviceInterceptor implements MethodInterceptor, AfterAdvice {
 
 		Method[] methods = throwsAdvice.getClass().getMethods();
 		for (Method method : methods) {
+			// 需要有afterThrowing方法
 			if (method.getName().equals(AFTER_THROWING) &&
+					// afterThrowing方法的参数必须是1个或4个
 					(method.getParameterCount() == 1 || method.getParameterCount() == 4)) {
 				Class<?> throwableParam = method.getParameterTypes()[method.getParameterCount() - 1];
 				if (Throwable.class.isAssignableFrom(throwableParam)) {

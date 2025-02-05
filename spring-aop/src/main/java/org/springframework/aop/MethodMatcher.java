@@ -73,6 +73,8 @@ public interface MethodMatcher {
 	 * @return whether a runtime match via the 3-arg
 	 * {@link #matches(java.lang.reflect.Method, Class, Object[])} method
 	 * is required if static matching passed
+	 *
+	 * <p>方法是不是动态代理的时候动态创建的
 	 */
 	boolean isRuntime();
 
