@@ -169,6 +169,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	private boolean lenientConstructorResolution = true;
 
+	// 通过factoryBeanName + factoryMethodName 实例化bean
+	// 如果factoryBeanName为空，则是静态工厂方法
 	@Nullable
 	private String factoryBeanName;
 
@@ -193,6 +195,13 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	private boolean enforceDestroyMethod = true;
 
+	/**
+	 * synthetic 主要用于区分框架生成的 Bean（Spring 内部用途）和用户定义的 Bean。当一个 BeanDefinition 被标记为 synthetic = true 时，通常意味着：
+	 *
+	 * 1.该 Bean 由 Spring 框架自动生成，而非用户直接定义。
+	 * 2.该 Bean 不应该被应用程序开发者直接操作（如 AOP 代理、自动配置等）。
+	 * 3.某些 Bean 可能不会被常规的后置处理器（BeanPostProcessor）或工具（如 Spring Boot DevTools 热加载）影响。
+	 */
 	private boolean synthetic = false;
 
 	private int role = BeanDefinition.ROLE_APPLICATION;
