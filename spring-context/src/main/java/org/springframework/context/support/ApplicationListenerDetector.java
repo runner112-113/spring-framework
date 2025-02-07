@@ -49,7 +49,7 @@ class ApplicationListenerDetector implements DestructionAwareBeanPostProcessor, 
 
 	private final transient AbstractApplicationContext applicationContext;
 
-	private final transient Map<String, Boolean> singletonNames = new ConcurrentHashMap<>(256);
+	private final transient Map<String/*beanName*/, Boolean/*是否单例*/> singletonNames = new ConcurrentHashMap<>(256);
 
 
 	public ApplicationListenerDetector(AbstractApplicationContext applicationContext) {
