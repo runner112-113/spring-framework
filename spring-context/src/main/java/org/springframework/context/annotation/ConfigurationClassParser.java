@@ -996,7 +996,10 @@ class ConfigurationClassParser {
 				Class<?> sourceClass = (Class<?>) sourceToProcess;
 				try {
 					// 获取所有的内部类
-					// getDeclaredClasses:
+					// getDeclaredClasses() 的作用
+					// 获取当前类定义的所有成员内部类（包括 private、protected、public 和 default）。
+					// 不会获取父类中的内部类，只返回当前类自己定义的内部类。
+					// 不会返回匿名内部类、局部内部类（方法内部类）。
 					// 返回的类是 Class 对象，名称格式为 外部类$内部类。
 					// 即使是 private 的内部类，getDeclaredClasses() 也能获取到。
 					Class<?>[] declaredClasses = sourceClass.getDeclaredClasses();
