@@ -57,14 +57,18 @@ final class ConfigurationClass {
 
 	private final Set<ConfigurationClass> importedBy = new LinkedHashSet<>(1);
 
+	// @Bean --> BeanMethod
 	private final Set<BeanMethod> beanMethods = new LinkedHashSet<>();
 
-	private final Map<String, Class<? extends BeanDefinitionReader>> importedResources =
+	// @ImportResource
+	private final Map<String/*resource location*/, Class<? extends BeanDefinitionReader>/*reader*/> importedResources =
 			new LinkedHashMap<>();
 
-	private final Map<ImportBeanDefinitionRegistrar, AnnotationMetadata> importBeanDefinitionRegistrars =
+	// @Import --> ImportBeanDefinitionRegistrar
+	private final Map<ImportBeanDefinitionRegistrar, AnnotationMetadata/*@Import所在类的元数据？*/> importBeanDefinitionRegistrars =
 			new LinkedHashMap<>();
 
+	// skipped @Bean 的beanName
 	final Set<String> skippedBeanMethods = new HashSet<>();
 
 
