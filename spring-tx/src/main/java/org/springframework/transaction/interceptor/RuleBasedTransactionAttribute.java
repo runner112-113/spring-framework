@@ -137,6 +137,7 @@ public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute i
 		}
 
 		// User superclass behavior (rollback on unchecked) if no rule matches.
+		// 默认winner = null，即默认回滚RuntimeException和Error
 		if (winner == null) {
 			return super.rollbackOn(ex);
 		}
