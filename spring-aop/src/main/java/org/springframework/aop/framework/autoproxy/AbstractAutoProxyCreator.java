@@ -129,17 +129,21 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 
 	private boolean applyCommonInterceptorsFirst = true;
 
+	// 自定义TargetSource创建器集合
+	// 有customTargetSourceCreators可能会在postProcessBeforeInstantiation处提前代理
 	@Nullable
 	private TargetSourceCreator[] customTargetSourceCreators;
 
 	@Nullable
 	private BeanFactory beanFactory;
 
+	// 拥有自定义targetSourced的代理Bean名称(提前代理？)
 	private final Set<String> targetSourcedBeans = Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 
+	// 早期引用获取时提前完成代理
 	private final Map<Object, Object> earlyProxyReferences = new ConcurrentHashMap<>(16);
 
-	private final Map<Object, Class<?>> proxyTypes = new ConcurrentHashMap<>(16);
+	private final Map<Object/*cacheKey*/, Class<?>/*proxy type*/> proxyTypes = new ConcurrentHashMap<>(16);
 
 	private final Map<Object, Boolean> advisedBeans = new ConcurrentHashMap<>(256);
 

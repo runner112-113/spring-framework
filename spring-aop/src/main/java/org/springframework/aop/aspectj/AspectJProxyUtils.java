@@ -56,6 +56,7 @@ public abstract class AspectJProxyUtils {
 					break;
 				}
 			}
+			//追加ExposeInvocationInterceptor： exposes the current {@link org.aopalliance.intercept.MethodInvocation}  as a thread-local object
 			if (foundAspectJAdvice && !advisors.contains(ExposeInvocationInterceptor.ADVISOR)) {
 				advisors.add(0, ExposeInvocationInterceptor.ADVISOR);
 				return true;

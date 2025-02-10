@@ -131,9 +131,11 @@ public abstract class AopProxyUtils {
 			// No user-specified interfaces: check whether target class is an interface.
 			Class<?> targetClass = advised.getTargetClass();
 			if (targetClass != null) {
+				// 代理的目标类是接口类型
 				if (targetClass.isInterface()) {
 					advised.setInterfaces(targetClass);
 				}
+				// 代理的目标类是jdk代理类
 				else if (Proxy.isProxyClass(targetClass) || ClassUtils.isLambdaClass(targetClass)) {
 					advised.setInterfaces(targetClass.getInterfaces());
 				}
@@ -147,9 +149,11 @@ public abstract class AopProxyUtils {
 				proxiedInterfaces.add(ifc);
 			}
 		}
+		// SpringProxy不在代理接口中，则添加SpringProxy接口 marker interface
 		if (!advised.isInterfaceProxied(SpringProxy.class)) {
 			proxiedInterfaces.add(SpringProxy.class);
 		}
+		// opaque为false，且Advised不在代理接口中，则添加Advised接口
 		if (!advised.isOpaque() && !advised.isInterfaceProxied(Advised.class)) {
 			proxiedInterfaces.add(Advised.class);
 		}
