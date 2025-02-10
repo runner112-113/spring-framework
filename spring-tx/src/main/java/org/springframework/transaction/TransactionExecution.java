@@ -38,6 +38,8 @@ public interface TransactionExecution {
 	 * that the only possible outcome of the transaction may be a rollback, as
 	 * alternative to throwing an exception which would in turn trigger a rollback.
 	 */
+	// setRollbackOnly() 只是设置一个 回滚标记，事务并不会立刻回滚。
+	// 当 commit(status) 被调用时，Spring 检测到 rollbackOnly 标记，就会回滚事务。
 	void setRollbackOnly();
 
 	/**
