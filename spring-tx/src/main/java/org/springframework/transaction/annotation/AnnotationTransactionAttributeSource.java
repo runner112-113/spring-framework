@@ -66,6 +66,7 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 		ejb3Present = ClassUtils.isPresent("javax.ejb.TransactionAttribute", classLoader);
 	}
 
+	// 是否只允许public方法被事务环绕
 	private final boolean publicMethodsOnly;
 
 	private final Set<TransactionAnnotationParser> annotationParsers;

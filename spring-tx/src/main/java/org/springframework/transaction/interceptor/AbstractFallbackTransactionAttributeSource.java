@@ -107,6 +107,7 @@ public abstract class AbstractFallbackTransactionAttributeSource
 		}
 
 		// First, see if we have a cached value.
+		// 尝试缓存中拿
 		Object cacheKey = getCacheKey(method, targetClass);
 		TransactionAttribute cached = this.attributeCache.get(cacheKey);
 		if (cached != null) {
@@ -131,6 +132,7 @@ public abstract class AbstractFallbackTransactionAttributeSource
 				if (txAttr instanceof DefaultTransactionAttribute) {
 					DefaultTransactionAttribute dta = (DefaultTransactionAttribute) txAttr;
 					dta.setDescriptor(methodIdentification);
+					// 解析timeoutString、qualifier、labels等占位符
 					dta.resolveAttributeStrings(this.embeddedValueResolver);
 				}
 				if (logger.isTraceEnabled()) {
@@ -164,26 +166,31 @@ public abstract class AbstractFallbackTransactionAttributeSource
 	@Nullable
 	protected TransactionAttribute computeTransactionAttribute(Method method, @Nullable Class<?> targetClass) {
 		// Don't allow non-public methods, as configured.
+		// 判断是否只允许public方法
 		if (allowPublicMethodsOnly() && !Modifier.isPublic(method.getModifiers())) {
 			return null;
 		}
 
 		// The method may be on an interface, but we need attributes from the target class.
 		// If the target class is null, the method will be unchanged.
+		// 获取最具体的方法
 		Method specificMethod = AopUtils.getMostSpecificMethod(method, targetClass);
 
 		// First try is the method in the target class.
+		// 方法上查找TransactionAttribute
 		TransactionAttribute txAttr = findTransactionAttribute(specificMethod);
 		if (txAttr != null) {
 			return txAttr;
 		}
 
 		// Second try is the transaction attribute on the target class.
+		// 类上查找TransactionAttribute
 		txAttr = findTransactionAttribute(specificMethod.getDeclaringClass());
 		if (txAttr != null && ClassUtils.isUserLevelMethod(method)) {
 			return txAttr;
 		}
 
+		// 在声明的类和方法上查找
 		if (specificMethod != method) {
 			// Fallback is to look at the original method.
 			txAttr = findTransactionAttribute(method);
@@ -223,6 +230,7 @@ public abstract class AbstractFallbackTransactionAttributeSource
 	 * Should only public methods be allowed to have transactional semantics?
 	 * <p>The default implementation returns {@code false}.
 	 */
+	// 是否只允许public方法拥有事务语义
 	protected boolean allowPublicMethodsOnly() {
 		return false;
 	}
