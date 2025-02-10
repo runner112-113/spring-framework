@@ -36,6 +36,7 @@ public interface HttpOutputMessage extends HttpMessage {
 	 * @return the output stream body (never {@code null})
 	 * @throws IOException in case of I/O errors
 	 */
+	// 请求体
 	OutputStream getBody() throws IOException;
 
 }

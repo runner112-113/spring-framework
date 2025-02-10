@@ -29,6 +29,7 @@ public interface HttpMessage {
 	 * Return the headers of this message.
 	 * @return a corresponding HttpHeaders object (never {@code null})
 	 */
+	// 请求头
 	HttpHeaders getHeaders();
 
 }
