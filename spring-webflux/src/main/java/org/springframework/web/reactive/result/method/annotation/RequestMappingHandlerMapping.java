@@ -148,10 +148,13 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	@Override
 	@Nullable
 	protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
+		// 方法级别 @RequestMapping 信息
 		RequestMappingInfo info = createRequestMappingInfo(method);
 		if (info != null) {
+			// 类级别 @RequestMapping 信息
 			RequestMappingInfo typeInfo = createRequestMappingInfo(handlerType);
 			if (typeInfo != null) {
+				// merge
 				info = typeInfo.combine(info);
 			}
 			for (Map.Entry<String, Predicate<Class<?>>> entry : this.pathPrefixes.entrySet()) {

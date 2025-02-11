@@ -1341,6 +1341,7 @@ public class DispatcherServlet extends FrameworkServlet {
 		ModelAndView exMv = null;
 		if (this.handlerExceptionResolvers != null) {
 			for (HandlerExceptionResolver resolver : this.handlerExceptionResolvers) {
+				// 解析异常
 				exMv = resolver.resolveException(request, response, handler, ex);
 				if (exMv != null) {
 					break;

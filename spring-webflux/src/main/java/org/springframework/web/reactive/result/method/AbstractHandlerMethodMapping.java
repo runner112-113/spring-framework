@@ -173,6 +173,7 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 	 * @see #handlerMethodsInitialized(Map)
 	 */
 	protected void initHandlerMethods() {
+		// 获取所有bean的名称
 		String[] beanNames = obtainApplicationContext().getBeanNamesForType(Object.class);
 
 		for (String beanName : beanNames) {
@@ -187,7 +188,9 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 						logger.trace("Could not resolve type for bean '" + beanName + "'", ex);
 					}
 				}
+				// 判断bean是否有@Controller或者@RequestMapping
 				if (beanType != null && isHandler(beanType)) {
+					// 探测HandlerMethods
 					detectHandlerMethods(beanName);
 				}
 			}
@@ -205,6 +208,7 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 
 		if (handlerType != null) {
 			final Class<?> userType = ClassUtils.getUserClass(handlerType);
+			// 获取所有@RequestMapping方法的RequestMappingInfo
 			Map<Method, T> methods = MethodIntrospector.selectMethods(userType,
 					(MethodIntrospector.MetadataLookup<T>) method -> getMappingForMethod(method, userType));
 			if (logger.isTraceEnabled()) {
@@ -523,6 +527,7 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 		public void register(T mapping, Object handler, Method method) {
 			this.readWriteLock.writeLock().lock();
 			try {
+				// 构建HandlerMethod
 				HandlerMethod handlerMethod = createHandlerMethod(handler, method);
 				validateMethodMapping(handlerMethod, mapping);
 

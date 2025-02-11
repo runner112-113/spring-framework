@@ -277,6 +277,7 @@ class ControllerMethodResolver {
 		Class<?> handlerType = handlerMethod.getBeanType();
 
 		// Global methods first
+		// @ControllerAdvice 全局的
 		this.initBinderAdviceCache.forEach((adviceBean, methods) -> {
 			if (adviceBean.isApplicableToBeanType(handlerType)) {
 				Object bean = adviceBean.resolveBean();
@@ -284,6 +285,7 @@ class ControllerMethodResolver {
 			}
 		});
 
+		// @RequestMapping、@Controller上的
 		this.initBinderMethodCache
 				.computeIfAbsent(handlerType,
 						clazz -> MethodIntrospector.selectMethods(handlerType, INIT_BINDER_METHODS))
