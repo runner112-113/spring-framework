@@ -62,6 +62,7 @@ public abstract class AbstractDispatcherServletInitializer extends AbstractConte
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		// 注册ContextLoaderListener监听器(实现了ServletContextListener)
 		super.onStartup(servletContext);
+		// 注册DispatcherServlet
 		registerDispatcherServlet(servletContext);
 	}
 
@@ -77,6 +78,7 @@ public abstract class AbstractDispatcherServletInitializer extends AbstractConte
 	 * @param servletContext the context to register the servlet against
 	 */
 	protected void registerDispatcherServlet(ServletContext servletContext) {
+		// 获取dispatcherServlet的名称
 		String servletName = getServletName();
 		Assert.hasLength(servletName, "getServletName() must not return null or empty");
 
@@ -87,8 +89,10 @@ public abstract class AbstractDispatcherServletInitializer extends AbstractConte
 		// 创建DispatcherServlet时传入了web容器
 		FrameworkServlet dispatcherServlet = createDispatcherServlet(servletAppContext);
 		Assert.notNull(dispatcherServlet, "createDispatcherServlet(WebApplicationContext) must not return null");
+		// 添加DispatcherServlet的ApplicationContextInitializer
 		dispatcherServlet.setContextInitializers(getServletApplicationContextInitializers());
 
+		// 向ServletContext中添加dispatcherServlet
 		ServletRegistration.Dynamic registration = servletContext.addServlet(servletName, dispatcherServlet);
 		if (registration == null) {
 			throw new IllegalStateException("Failed to register servlet with name '" + servletName + "'. " +
@@ -99,6 +103,7 @@ public abstract class AbstractDispatcherServletInitializer extends AbstractConte
 		registration.addMapping(getServletMappings());
 		registration.setAsyncSupported(isAsyncSupported());
 
+		// 注册Filters
 		Filter[] filters = getServletFilters();
 		if (!ObjectUtils.isEmpty(filters)) {
 			for (Filter filter : filters) {
@@ -106,6 +111,7 @@ public abstract class AbstractDispatcherServletInitializer extends AbstractConte
 			}
 		}
 
+		// 自定义处理dispatcherServlet的ServletRegistration
 		customizeRegistration(registration);
 	}
 

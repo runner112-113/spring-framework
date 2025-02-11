@@ -261,6 +261,7 @@ public class ContextLoader {
 		try {
 			// Store context in local instance variable, to guarantee that
 			// it is available on ServletContext shutdown.
+			// context即创建的root容器
 			if (this.context == null) {
 				this.context = createWebApplicationContext(servletContext);
 			}
@@ -399,7 +400,7 @@ public class ContextLoader {
 			((ConfigurableWebEnvironment) env).initPropertySources(sc, null);
 		}
 
-		// 回调ApplicationContextInitializer的initialize
+		// refresh之前回调ApplicationContextInitializer的initialize （扩展点）
 		customizeContext(sc, wac);
 		wac.refresh();
 	}
